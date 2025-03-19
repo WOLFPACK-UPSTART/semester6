@@ -1,0 +1,162 @@
+Activity_Main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+
+
+    <TextView
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Name" />
+
+
+
+    <TextView
+
+        android:id="@+id/sensorOutput"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Waiting for sensor data..."
+
+        android:textSize="20sp"
+
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
+______________________________________________________________________
+
+MainActivity.java:
+
+
+
+package com.example.exno9; 
+
+ 
+
+import androidx.appcompat.app.AppCompatActivity; 
+
+import android.os.Bundle; 
+
+import android.hardware.Sensor; 
+
+import android.hardware.SensorEvent; 
+
+import android.hardware.SensorEventListener; 
+
+import android.hardware.SensorManager; 
+
+import android.widget.TextView; 
+
+ 
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener { 
+
+ 
+
+    private SensorManager sensorManager; 
+
+    private Sensor proximitySensor; 
+
+    private TextView sensorOutput; 
+
+ 
+
+    @Override 
+
+    protected void onCreate(Bundle savedInstanceState) { 
+
+        super.onCreate(savedInstanceState); 
+
+        setContentView(R.layout.activity_main); 
+
+ 
+
+        // Reference to the TextView in the layout 
+
+        sensorOutput = findViewById(R.id.sensorOutput); 
+
+ 
+
+        // Initialize sensor manager and proximity sensor 
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
+
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null) { 
+
+            proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY); 
+
+        } else { 
+
+            sensorOutput.setText("No proximity sensor found!"); 
+
+        } 
+
+    } 
+
+ 
+
+    @Override 
+
+    protected void onResume() { 
+
+        super.onResume(); 
+
+        // Register sensor listener if sensor exists 
+
+        if (proximitySensor != null) { 
+
+            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL); 
+
+        } 
+
+    } 
+
+ 
+
+    @Override 
+
+    protected void onPause() { 
+
+        super.onPause(); 
+
+        // Unregister sensor listener to save battery 
+
+        sensorManager.unregisterListener(this); 
+
+    } 
+
+ 
+
+    @Override 
+
+    public void onSensorChanged(SensorEvent event) { 
+
+        // Update the TextView with the current sensor value 
+
+        sensorOutput.setText("Proximity Sensor Value: " + event.values[0]); 
+
+    } 
+
+ 
+
+    @Override 
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { 
+
+        // You can react to sensor accuracy changes here if needed 
+
+    } 
+
+} 

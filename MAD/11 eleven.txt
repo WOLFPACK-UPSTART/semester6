@@ -1,0 +1,101 @@
+Main_Activity.java:
+
+package com.example.exno11;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button enableButton, disButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        enableButton = findViewById(R.id.button1);
+        disButton = findViewById(R.id.button2);
+
+        enableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check if the device is running Android 10 (API 29) or higher
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Direct the user to the Wi-Fi settings page instead of enabling Wi-Fi programmatically
+                    Intent intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+                    startActivity(intent);
+                } else {
+                    // For older versions, Wi-Fi can still be enabled programmatically
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(true);
+                }
+            }
+        });
+
+        disButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check if the device is running Android 10 (API 29) or higher
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Direct the user to the Wi-Fi settings page instead of disabling Wi-Fi programmatically
+                    Intent intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+                    startActivity(intent);
+                } else {
+                    // For older versions, Wi-Fi can still be disabled programmatically
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(false);
+                }
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+------------------------------------------------------------------
+activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginEnd="134dp"
+        android:layout_marginBottom="457dp"
+        android:text="Enable Wifi" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="131dp"
+        android:layout_marginBottom="241dp"
+        android:text="Disable Wifi" />
+
+</RelativeLayout>
