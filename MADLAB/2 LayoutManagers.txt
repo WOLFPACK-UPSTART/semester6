@@ -1,0 +1,123 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Name input field -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Name"
+        android:inputType="textPersonName" />
+
+    <!-- Roll Number input field -->
+    <EditText
+        android:id="@+id/etRollNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Roll No"
+        android:inputType="number" />
+
+    <!-- Department drop-down (Spinner) -->
+    <Spinner
+        android:id="@+id/spinnerDepartment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Submit button -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+
+</LinearLayout>
+
+
+activity_result.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Display result text -->
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Submitted data will appear here"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+
+
+Java:
+
+package com.example.layoutmanagers;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText etName, etRollNo;
+    private Spinner spinnerDepartment;
+    private Button btnSubmit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // Load the input form layout
+
+        // Initialize views for the input form
+        etName = findViewById(R.id.etName);
+        etRollNo = findViewById(R.id.etRollNo);
+        spinnerDepartment = findViewById(R.id.spinnerDepartment);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        // Set up Spinner (Department drop-down)
+        String[] departments = {"CSE", "IT", "AIDS"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, departments);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDepartment.setAdapter(adapter);
+
+        // Handle button click (Submit)
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the values from EditText and Spinner
+                String name = etName.getText().toString().trim();
+                String rollNo = etRollNo.getText().toString().trim();
+                String department = spinnerDepartment.getSelectedItem().toString();
+
+                // Validate inputs
+                if (name.isEmpty() || rollNo.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Switch to result layout after successful input
+                    setContentView(R.layout.activity_result); // Switch to the result layout
+
+                    // Get the result TextView and set the data
+                    TextView tvResult = findViewById(R.id.tvResult);
+                    String result = "Name: " + name + "\nRoll No: " + rollNo + "\nDepartment: " + department;
+                    tvResult.setText(result);
+                }
+            }
+        });
+    }
+}

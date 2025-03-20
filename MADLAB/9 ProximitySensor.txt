@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/proximityDataTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proximity Sensor Data"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:padding="10dp"/>
+
+</LinearLayout>
+
+
+Java:
+
+package com.example.proximitysensor;
+
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    private SensorManager sensorManager;
+    private Sensor proximitySensor;
+    private TextView proximityDataTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize the TextView for displaying proximity sensor data
+        proximityDataTextView = findViewById(R.id.proximityDataTextView);
+
+        // Initialize the SensorManager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        // Get the proximity sensor
+        if (sensorManager != null) {
+            proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        }
+
+        // Register the sensor listener to listen to proximity sensor updates
+        if (proximitySensor != null) {
+            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // Check if the event is from the proximity sensor
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            // Get the proximity value (distance in centimeters)
+            float proximityValue = event.values[0];
+
+            // Display the proximity value in real-time on the TextView
+            String proximityData = "Proximity Distance: " + proximityValue + " cm";
+            proximityDataTextView.setText(proximityData);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // This method can be used to detect accuracy changes, but it's not needed for this simple example
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the sensor listener when the app is paused
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register the sensor listener again when the app is resumed
+        if (sensorManager != null && proximitySensor != null) {
+            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+}

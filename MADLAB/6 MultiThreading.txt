@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <!-- ImageView to display the images -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_margin="50dp"
+        android:layout_gravity="center"
+        android:background="@color/cardview_dark_background"/>
+
+    <!-- Button to load Image 1 -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Image 1"
+        android:textAllCaps="true"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"/>
+
+    <!-- Button to load Image 2 -->
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Image 2"
+        android:textAllCaps="true"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+
+
+Java:
+
+package com.example.multithreading;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView img;
+    private Button bt1, bt2, bt3;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize views
+        bt1 = findViewById(R.id.button);
+        bt2 = findViewById(R.id.button2);
+        img = findViewById(R.id.imageView);
+
+        // Set click listener for button 1 to load Image 1
+        bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        img.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Set image for ImageView (Image 1)
+                                img.setImageResource(R.drawable.img);  // Ensure img.png exists in res/drawable
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
+        // Set click listener for button 2 to load Image 2
+        bt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        img.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Set image for ImageView (Image 2)
+                                img.setImageResource(R.drawable.img_1);  // Ensure img_1.png exists in res/drawable
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+    }
+}

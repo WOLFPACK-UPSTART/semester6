@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ImageView to display the drawing -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
+
+
+Java:
+
+package com.example.graphicalprimitives;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);  // Set layout for MainActivity
+
+        // Create a Bitmap with width 1080px and height 2400px (based on your emulator size)
+        Bitmap bg = Bitmap.createBitmap(1080, 2400, Bitmap.Config.ARGB_8888);
+
+        // Find the ImageView in the layout and set the background to the Bitmap
+        ImageView i = (ImageView) findViewById(R.id.imageView);
+        i.setBackgroundDrawable(new BitmapDrawable(bg));
+
+        // Create a Canvas to draw on the Bitmap
+        Canvas canvas = new Canvas(bg);
+
+        // Create a Paint object to define the style of the shapes and text
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);  // Set style to fill
+        paint.setTextSize(60);  // Set text size to 60px for readability
+        paint.setColor(Color.BLACK);  // Set text color to black
+
+        // Draw the rectangle (Positioned in the first column, first row)
+        paint.setColor(Color.BLUE);  // Set color to blue for rectangle
+        canvas.drawText("Rectangle", 50, 150, paint);  // Draw the text label
+        canvas.drawRect(50, 200, 500, 500, paint);  // Draw a rectangle
+
+        // Draw the circle (Positioned in the second column, first row)
+        paint.setColor(Color.RED);  // Set color to red for circle
+        canvas.drawText("Circle", 600, 150, paint);  // Draw the text label
+        canvas.drawCircle(800, 350, 150, paint);  // Draw a circle
+
+        // Draw the square (Positioned in the first column, second row)
+        paint.setColor(Color.GREEN);  // Set color to green for square
+        canvas.drawText("Square", 50, 800, paint);  // Draw the text label
+        canvas.drawRect(50, 850, 400, 1150, paint);  // Draw a square
+
+        // Draw the triangle (Positioned in the second column, second row)
+        paint.setColor(Color.BLACK);  // Set color to yellow for triangle
+        canvas.drawText("Triangle", 600, 800, paint);  // Draw the text label
+        Path path = new Path();
+        path.moveTo(550f, 850f);  // Start at point (550, 850)
+        path.lineTo(950f, 850f);  // Draw line to point (950, 850)
+        path.lineTo(750f, 1150f);  // Draw line to point (750, 1150)
+        path.close();  // Close the path to form a triangle
+        canvas.drawPath(path, paint);  // Draw the triangle
+    }
+}

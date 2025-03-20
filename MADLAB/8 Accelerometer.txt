@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/accelerationDataTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accelerometer Data"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:padding="10dp"/>
+
+</LinearLayout>
+
+
+Java:
+
+package com.example.accelerometer;
+
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private TextView accelerationDataTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize the TextView for displaying accelerometer data
+        accelerationDataTextView = findViewById(R.id.accelerationDataTextView);
+
+        // Initialize the SensorManager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        // Initialize the accelerometer sensor
+        if (sensorManager != null) {
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+
+        // Register the sensor listener to listen to accelerometer updates
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // Check if the event is from the accelerometer
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            // Get the X, Y, and Z values from the sensor event
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Display the accelerometer data in real-time on the TextView
+            String accelerationData = "X: " + x + "\nY: " + y + "\nZ: " + z;
+            accelerationDataTextView.setText(accelerationData);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // This method can be used to detect accuracy changes, but it's not needed for this simple example
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the sensor listener when the app is paused
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register the sensor listener again when the app is resumed
+        if (sensorManager != null && accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+}
