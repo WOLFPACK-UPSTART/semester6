@@ -1,0 +1,154 @@
+#merge datasets
+
+import pandas as pd
+
+df1 = pd.read_csv("/content/sample_data/california_housing_test.csv")
+df2 = pd.read_csv("/content/sample_data/california_housing_train.csv")
+
+df1.rename(columns={'old_col1': 'new_col1', 'old_col2': 'new_col2'}, inplace=True)
+df2.rename(columns={'old_col1': 'new_col1', 'old_col2': 'new_col2'}, inplace=True)
+
+merged_df = pd.merge(df1, df2, on='latitude', how='outer')
+merged_df.fillna("Unknown", inplace=True)
+print(merged_df.head())
+merged_df.to_csv('merged_dataset.csv', index=False)
+
+----------------------------------------------------------------
+
+#types of attributes
+
+import pandas as pd
+
+df = pd.read_csv("/content/sample_data/california_housing_test.csv")
+
+numeric = df.select_dtypes(include=['number']).columns.tolist()
+nominal = df.select_dtypes(include=['object', 'category']).columns.tolist()
+
+ordinal_columns = {}
+ordinal = [col for col in nominal if col in ordinal_columns]
+nominal = [col for col in nominal if col not in ordinal_columns]
+
+print("Nominal Attributes:", nominal)
+print("Ordinal Attributes:", ordinal)
+print("Numeric Attributes:", numeric)
+
+-----------------------------------------------------------------
+
+#stratified sampling
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv('/content/sample_data/california_housing_test.csv')
+attribute = 'housing_median_age'
+
+_, stratified_sample = train_test_split(df, test_size=0.2, stratify=df[attribute], random_state=42)
+
+print("\nStratified Sample:\n", stratified_sample)
+
+---------------------------------------------------------------
+
+#min max normalisation
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+df = pd.read_csv('/content/sample_data/california_housing_test.csv')
+
+column_to_normalize = 'population'
+scaler = MinMaxScaler()
+
+df[column_to_normalize + '_Normalized'] = scaler.fit_transform(df[[column_to_normalize]])
+df.to_csv('normalized_dataset.csv', index=False)
+
+print(df.head())
+
+---------------------------------------------------------
+
+#histogram
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv("/content/sample_data/california_housing_test.csv")
+
+sns.set_style("whitegrid")
+df.select_dtypes(include=['number']).plot(kind='hist', bins=30, alpha=0.5, figsize=(12, 6), legend=True)
+
+plt.title("Histogram")
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.show()
+
+--------------------------------------------------------
+
+#classification (naive bayes)
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report
+
+data = pd.read_csv("/content/wines_SPA.csv")
+
+for column in data.columns:
+    if data[column].dtype == 'object':
+        data[column].fillna(data[column].mode()[0], inplace=True)
+    else:
+        data[column].fillna(data[column].median(), inplace=True)
+
+label_encoders = {}
+for column in data.select_dtypes(include=['object']).columns:
+    le = LabelEncoder()
+    data[column] = le.fit_transform(data[column])
+    label_encoders[column] = le
+
+X = data.drop(columns=['type'])
+y = data['type']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
+print(classification_report(y_test, y_pred))
+
+------------------------------------------------------------------------------
+
+#clustering (k means)
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/content/wines_SPA.csv')
+
+for column in df.columns:
+    if df[column].dtype == 'object':
+        df[column].fillna(df[column].mode()[0], inplace=True)
+    else:
+        df[column].fillna(df[column].mean(), inplace=True)
+
+label_encoders = {}
+for column in df.select_dtypes(include=['object']).columns:
+    le = LabelEncoder()
+    df[column] = le.fit_transform(df[column])
+    label_encoders[column] = le
+
+num_clusters = 2
+kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+df['Cluster'] = kmeans.fit_predict(df)
+
+plt.scatter(df.iloc[:, 0], df.iloc[:, 1], c=df['Cluster'], cmap='viridis')
+plt.xlabel(df.columns[0])
+plt.ylabel(df.columns[1])
+plt.title("K-Means Clustering")
+plt.show()
+
+print(df.head())
