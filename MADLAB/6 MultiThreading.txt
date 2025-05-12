@@ -1,3 +1,5 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,7 +8,6 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <!-- ImageView to display the images -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
@@ -15,7 +16,6 @@
         android:layout_gravity="center"
         android:background="@color/cardview_dark_background"/>
 
-    <!-- Button to load Image 1 -->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -25,7 +25,6 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center"/>
 
-    <!-- Button to load Image 2 -->
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
@@ -58,12 +57,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize views
         bt1 = findViewById(R.id.button);
         bt2 = findViewById(R.id.button2);
         img = findViewById(R.id.imageView);
 
-        // Set click listener for button 1 to load Image 1
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         img.post(new Runnable() {
                             @Override
                             public void run() {
-                                // Set image for ImageView (Image 1)
-                                img.setImageResource(R.drawable.img);  // Ensure img.png exists in res/drawable
+                                img.setImageResource(R.drawable.img);
                             }
                         });
                     }
@@ -82,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set click listener for button 2 to load Image 2
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         img.post(new Runnable() {
                             @Override
                             public void run() {
-                                // Set image for ImageView (Image 2)
-                                img.setImageResource(R.drawable.img_1);  // Ensure img_1.png exists in res/drawable
+                                img.setImageResource(R.drawable.img_1);
                             }
                         });
                     }
