@@ -1,3 +1,5 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -42,18 +44,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the TextView for displaying accelerometer data
         accelerationDataTextView = findViewById(R.id.accelerationDataTextView);
 
-        // Initialize the SensorManager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        // Initialize the accelerometer sensor
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
 
-        // Register the sensor listener to listen to accelerometer updates
         if (accelerometer != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
@@ -61,28 +59,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        // Check if the event is from the accelerometer
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            // Get the X, Y, and Z values from the sensor event
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
 
-            // Display the accelerometer data in real-time on the TextView
             String accelerationData = "X: " + x + "\nY: " + y + "\nZ: " + z;
             accelerationDataTextView.setText(accelerationData);
         }
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // This method can be used to detect accuracy changes, but it's not needed for this simple example
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     @Override
     protected void onPause() {
         super.onPause();
-        // Unregister the sensor listener when the app is paused
         if (sensorManager != null) {
             sensorManager.unregisterListener(this);
         }
@@ -91,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        // Register the sensor listener again when the app is resumed
         if (sensorManager != null && accelerometer != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
