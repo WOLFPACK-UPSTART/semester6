@@ -1,3 +1,5 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -60,7 +62,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Declare the notification manager and builder
     NotificationManager notificationManager;
     NotificationCompat.Builder builder;
     NotificationChannel channel;
@@ -70,14 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check for notification permission (For Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
             }
         }
 
-        // Set up buttons and listeners
         Button btnSimpleNotification = findViewById(R.id.btnSimpleNotification);
         Button btnNotificationIcon = findViewById(R.id.btnNotificationIcon);
         Button btnNotificationImage = findViewById(R.id.btnNotificationImage);
@@ -86,10 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNotificationIcon.setOnClickListener(this);
         btnNotificationImage.setOnClickListener(this);
 
-        // Initialize the NotificationManager
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Create a Notification Channel for Android 8.0 (API 26) and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "my_channel_01";
             CharSequence name = "My Notification";
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             notificationManager.createNotificationChannel(channel);
 
             builder = new NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher);  // Set the icon for notifications
+                    .setSmallIcon(R.mipmap.ic_launcher);
         } else {
             builder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher);
@@ -109,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        // Handle the button clicks and show respective notifications
         if (v.getId() == R.id.btnSimpleNotification) {
             simpleNotification();
         } else if (v.getId() == R.id.btnNotificationIcon) {
@@ -119,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Simple notification with text
     private void simpleNotification() {
         Person sender = new Person.Builder()
                 .setName("Sender")
@@ -133,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         notificationManager.notify(1, builder.build());
     }
 
-    // Notification with an icon
     private void notificationWithIcon() {
         Person sender = new Person.Builder()
                 .setName("Sender")
@@ -148,14 +142,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         notificationManager.notify(2, builder.build());
     }
 
-    // Notification with an image
     private void notificationWithImage() {
         Person sender = new Person.Builder()
                 .setName("Bot")
                 .setImportant(true)
                 .build();
 
-        Uri imageUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.bg);  // Set the image resource
+        Uri imageUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.bg);
 
         NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(
                 "This notification has an image.", new Date().getTime(), sender);
