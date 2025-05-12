@@ -9,10 +9,10 @@ XML:
     android:gravity="center">
 
     <TextView
-        android:id="@+id/proximityDataTextView"
+        android:id="@+id/accelerationDataTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Proximity Sensor Data"
+        android:text="Accelerometer Data"
         android:textSize="18sp"
         android:textColor="#000"
         android:padding="10dp"/>
@@ -22,7 +22,7 @@ XML:
 
 Java:
 
-package com.example.proximitysensor;
+package com.example.accelerometer;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -30,39 +30,42 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
-    private Sensor proximitySensor;
-    private TextView proximityDataTextView;
+    private Sensor accelerometer;
+    private TextView accelerationDataTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        proximityDataTextView = findViewById(R.id.proximityDataTextView);
+        accelerationDataTextView = findViewById(R.id.accelerationDataTextView);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         if (sensorManager != null) {
-            proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
 
-        if (proximitySensor != null) {
-            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_UI);
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-            float proximityValue = event.values[0];
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
 
-            String proximityData = "Proximity Distance: " + proximityValue + " cm";
-            proximityDataTextView.setText(proximityData);
+            String accelerationData = "X: " + x + "\nY: " + y + "\nZ: " + z;
+            accelerationDataTextView.setText(accelerationData);
         }
     }
 
@@ -80,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        if (sensorManager != null && proximitySensor != null) {
-            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_UI);
+        if (sensorManager != null && accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     }
 }
