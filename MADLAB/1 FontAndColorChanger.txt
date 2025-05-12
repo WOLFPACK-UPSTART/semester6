@@ -8,7 +8,6 @@ XML:
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- TextView to display text -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@ XML:
         android:layout_marginTop="32dp"
         android:gravity="center"/>
 
-    <!-- Button to change font -->
     <Button
         android:id="@+id/btnChangeFont"
         android:layout_width="wrap_content"
@@ -28,7 +26,6 @@ XML:
         android:text="Change Font"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Button to change color -->
     <Button
         android:id="@+id/btnChangeColor"
         android:layout_width="wrap_content"
@@ -55,10 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Button btnChangeFont, btnChangeColor;
 
-    // Boolean to track the current font state
     private boolean isFontChanged = false;
 
-    // Boolean to track the current color state
     private boolean isColorChanged = false;
 
     @Override
@@ -66,12 +61,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the TextView and Buttons
         textView = findViewById(R.id.textView);
         btnChangeFont = findViewById(R.id.btnChangeFont);
         btnChangeColor = findViewById(R.id.btnChangeColor);
 
-        // Set OnClickListener for btnChangeFont
         btnChangeFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,19 +81,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set OnClickListener for btnChangeColor
         btnChangeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Toggle the text color
                 if (isColorChanged) {
-                    // Change back to default color (Black)
                     textView.setTextColor(Color.BLACK);
                 } else {
-                    // Change to red color
                     textView.setTextColor(Color.RED);
                 }
-                // Toggle the color state
                 isColorChanged = !isColorChanged;
             }
         });
