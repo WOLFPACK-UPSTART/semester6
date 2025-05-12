@@ -1,3 +1,5 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,7 +8,6 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <!-- Button to Turn Wi-Fi On -->
     <Button
         android:id="@+id/buttonTurnOnWifi"
         android:layout_width="wrap_content"
@@ -15,7 +16,6 @@
         android:textAllCaps="false"
         android:layout_marginBottom="16dp" />
 
-    <!-- Button to Turn Wi-Fi Off -->
     <Button
         android:id="@+id/buttonTurnOffWifi"
         android:layout_width="wrap_content"
@@ -33,12 +33,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Bundle; // Make sure you import Bundle here
+import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;  // Ensure you're using AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,31 +46,27 @@ public class MainActivity extends AppCompatActivity {
     private Button turnOnWifiButton, turnOffWifiButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {  // Correct method signature
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize WifiManager
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-        // Check if Wi-Fi is supported on the device
         if (wifiManager == null) {
             Toast.makeText(this, "Wi-Fi is not supported on this device", Toast.LENGTH_LONG).show();
             return;
         }
 
-        // Get references to the buttons
         turnOnWifiButton = findViewById(R.id.buttonTurnOnWifi);
         turnOffWifiButton = findViewById(R.id.buttonTurnOffWifi);
 
-        // Set click listeners for the buttons
         turnOnWifiButton.setOnClickListener(v -> turnOnWifi());
         turnOffWifiButton.setOnClickListener(v -> turnOffWifi());
     }
 
     private void turnOnWifi() {
         if (!wifiManager.isWifiEnabled()) {
-            wifiManager.setWifiEnabled(true);  // Turn Wi-Fi on
+            wifiManager.setWifiEnabled(true);
             Toast.makeText(this, "Wi-Fi is now ON", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Wi-Fi is already ON", Toast.LENGTH_SHORT).show();
@@ -78,22 +74,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void turnOffWifi() {
-        // For Android 10 and above, we cannot directly turn off Wi-Fi programmatically
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // Open Wi-Fi settings to let the user toggle Wi-Fi off manually
             Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
             startActivity(intent);
             Toast.makeText(this, "Opening Wi-Fi settings", Toast.LENGTH_SHORT).show();
         } else {
             if (wifiManager.isWifiEnabled()) {
-                wifiManager.setWifiEnabled(false);  // Turn Wi-Fi off for lower Android versions
+                wifiManager.setWifiEnabled(false);
                 Toast.makeText(this, "Wi-Fi is now OFF", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Wi-Fi is already OFF", Toast.LENGTH_SHORT).show();
             }
         }
     }
-}<?xml version="1.0" encoding="utf-8"?>
+}
+
+
+Manifest:
+
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WifiSettings"
+        android:theme="@style/Theme.Wifisettings"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -122,7 +121,3 @@ public class MainActivity extends AppCompatActivity {
     </application>
 
 </manifest>
-
-
-Manifest:
-
