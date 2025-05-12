@@ -1,9 +1,10 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Title TextView -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -13,7 +14,6 @@
         android:text="Student Details"
         android:textSize="30sp" />
 
-    <!-- Roll Number Label and EditText -->
     <TextView
         android:id="@+id/rollnoLabel"
         android:layout_width="wrap_content"
@@ -32,7 +32,6 @@
         android:inputType="number"
         android:textSize="20sp" />
 
-    <!-- Name Label and EditText -->
     <TextView
         android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
@@ -51,7 +50,6 @@
         android:inputType="text"
         android:textSize="20sp" />
 
-    <!-- Marks Label and EditText -->
     <TextView
         android:id="@+id/marksLabel"
         android:layout_width="wrap_content"
@@ -70,7 +68,6 @@
         android:inputType="number"
         android:textSize="20sp" />
 
-    <!-- LinearLayout to Arrange Buttons Vertically -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +76,6 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp">
 
-        <!-- Insert Button -->
         <Button
             android:id="@+id/Insert"
             android:layout_width="150dp"
@@ -88,7 +84,6 @@
             android:textSize="20sp"
             android:layout_marginBottom="10dp" />
 
-        <!-- Delete Button -->
         <Button
             android:id="@+id/Delete"
             android:layout_width="150dp"
@@ -97,7 +92,6 @@
             android:textSize="20sp"
             android:layout_marginBottom="10dp" />
 
-        <!-- Update Button -->
         <Button
             android:id="@+id/Update"
             android:layout_width="150dp"
@@ -106,7 +100,6 @@
             android:textSize="20sp"
             android:layout_marginBottom="10dp" />
 
-        <!-- View All Button -->
         <Button
             android:id="@+id/ViewAll"
             android:layout_width="150dp"
@@ -143,7 +136,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize UI components
         Rollno = findViewById(R.id.Rollno);
         Name = findViewById(R.id.Name);
         Marks = findViewById(R.id.Marks);
@@ -152,13 +144,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Update = findViewById(R.id.Update);
         ViewAll = findViewById(R.id.ViewAll);
 
-        // Set click listeners for buttons
         Insert.setOnClickListener(this);
         Delete.setOnClickListener(this);
         Update.setOnClickListener(this);
         ViewAll.setOnClickListener(this);
 
-        // Open or create the database
         db = openOrCreateDatabase("StudentDB", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS student(rollno VARCHAR, name VARCHAR, marks VARCHAR);");
     }
