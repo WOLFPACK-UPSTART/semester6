@@ -1,3 +1,5 @@
+XML:
+
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -28,9 +30,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,18 +47,14 @@ public class MainActivity extends AppCompatActivity {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         if (sensorManager != null) {
-            // Get the list of all available sensors
             List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-            // Create a string to hold the list of sensor names
             StringBuilder sensorsString = new StringBuilder("List of Sensors:\n");
 
-            // Loop through the sensors and append them to the string
             for (Sensor sensor : sensorList) {
                 sensorsString.append(sensor.getName()).append("\n");
             }
 
-            // Display the sensor names in the TextView
             sensorsListTextView.setText(sensorsString.toString());
         }
     }
