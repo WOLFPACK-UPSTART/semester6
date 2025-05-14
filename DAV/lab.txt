@@ -1,0 +1,33 @@
+1st link : code , 2nd link dataset 
+EX2  Inferential statistics: 
+https://colab.research.google.com/drive/1TvlfB4Qpsaj19iEwwTcyg02BEUSB3KiY?usp=sharing
+
+Dataset:
+https://kumaragurudtsteam-my.sharepoint.com/:x:/g/personal/nithinprasath_22cs_kct_ac_in/ESGlqc2jEcVKh2hZ85BVDqcBLj_1wYHWLCEtbp-4olwNdw?e=zNyIj1
+
+Google Colab Link:
+https://colab.research.google.com/drive/1TvlfB4Qpsaj19iEwwTcyg02BEUSB3KiY?usp=sharing
+
+EX3 Univariate analysis: 
+https://colab.research.google.com/drive/1zQu1_Llrm7iZ9D0povZr0UhThrTJNar?usp=sharing 
+https://www.kaggle.com/datasets/acareren/exam-and-grant-data-of-erasmusapplicants/data 
+
+EX 4  Bivariate analysis : 
+https://colab.research.google.com/drive/1TNRYsZ24PfSa0Gz86_S4u05kK5wM0he#scrollTo=C8Sfe1XcrSj7 
+https://github.com/Dhinesh2454/Marketing-and-Product-Performance-Dataset/blob/main/marketing_and_product_performance.csv
+
+EXPERIMENT – 5: Correlation Analysis – Quantifying Relationships 
+https://colab.research.google.com/drive/1CCFXKT520epqevomFtkltMsGFmoI4JI5?usp=sharing
+https://www.kaggle.com/datasets/samira1992/student-scores-simple-dataset 
+
+EXPERIMENT – 6 : Data Distribution and Normality Testing 
+https://colab.research.google.com/drive/1Cn9Z7ulP22lEVFqnehHL-txlA5bWSP7?usp=sharing 
+https://www.kaggle.com/datasets/wenruliu/adult-income-dataset
+
+EXPERIMENT – 7 : Data Cleaning – Handling Missing Values and Outliers 
+https://colab.research.google.com/drive/17KgNaJAqhqay7AbLOtb_Hwzw4ZUkVgxP?usp=sharing
+https://www.kaggle.com/datasets/mjlyma/customer-purchase-dataset
+
+EXPERIMENT – 8 : Feature Engineering – Creating and Transforming Variables 
+https://colab.research.google.com/drive/1mDTtL1xJt_O7cryVZOVBBLQwJQdy8cZ?usp=sharing 
+https://www.kaggle.com/datasets/salahuddinahmedshuvo/ecommerce-consumer-behavior-analysis-data 
